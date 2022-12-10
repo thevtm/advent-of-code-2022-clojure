@@ -36,14 +36,13 @@
 (->> move-commands
      (map #(repeat (first %) (rest %)))
      (apply concat)
-     (reduce (fn [crates-state move-command]
-               (let [source-pile (first move-command)
-                     target-pile (second move-command)
-                     crate-removed (first (get crates-state source-pile))
-                     crates-state-without-removed-crate (update-in crates-state [source-pile] #(vec (rest %)))
-                     crates-state-next (update-in crates-state-without-removed-crate [target-pile] #(vec (concat [crate-removed] %)))]
-                 crates-state-next))
-             crates-initial-state)
+     (reduce
+      (fn [crates-state [source-pile target-pile]]
+        (let [crate-removed (first (get crates-state source-pile))
+              crates-state-without-removed-crate (update-in crates-state [source-pile] #(vec (rest %)))
+              crates-state-next (update-in crates-state-without-removed-crate [target-pile] #(vec (concat [crate-removed] %)))]
+          crates-state-next))
+      crates-initial-state)
      (seq)
      (sort-by #(first %))
      (map #(first (second %)))
@@ -51,15 +50,13 @@
 
 ;; Answer 2: BRZGFVBTJ
 (->> move-commands
-     (reduce (fn [crates-state move-command]
-               (let [quantity (nth move-command 0)
-                     source-pile (nth move-command 1)
-                     target-pile (nth move-command 2)
-                     crate-removed (take quantity (get crates-state source-pile))
-                     crates-state-without-removed-crate (update-in crates-state [source-pile] #(vec (drop quantity %)))
-                     crates-state-next (update-in crates-state-without-removed-crate [target-pile] #(vec (concat crate-removed %)))]
-                 crates-state-next))
-             crates-initial-state)
+     (reduce
+      (fn [crates-state [quantity source-pile target-pile]]
+        (let [crates-removed (take quantity (get crates-state source-pile))
+              crates-state-without-removed-crate (update-in crates-state [source-pile] #(vec (drop quantity %)))
+              crates-state-next (update-in crates-state-without-removed-crate [target-pile] #(vec (concat crates-removed %)))]
+          crates-state-next))
+      crates-initial-state)
      (seq)
      (sort-by #(first %))
      (map #(first (second %)))
