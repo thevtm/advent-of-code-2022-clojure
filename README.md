@@ -7,6 +7,7 @@ Repository containing my solutions for [Advent of Code 2022](https://adventofcod
 - Days 1 - 6 the problems were simple and I was mostly getting used with the language and standard library.
 - Day 7 was a difficult one. I decided to think of things from an entity and computed property perspective, used functions to do the computed property part (memoized them when necessary). Really liked this approach because it was easy to test and allowed me to solve the problems in small incremental steps. Also tried to solve it using DataScript but gave up once it got long and slow.
 - Day 8 was an interesting one. I've managed to solve it with 273 lines of DataScript.
+- Day 9 really cool problem, specially part 2. Used the entity and computed property like day 7, I really like how it simplify testing.
 
 ## Other Solutions
 
